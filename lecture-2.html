@@ -122,37 +122,53 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+/* ========================================== */
+        /* SMART PRINT MODE (Light Theme + Page Breaks) */
         /* ========================================== */
-        /* SMART PRINT MODE (For PDF Engine)          */
-        /* ========================================== */
-        .html2pdf__container .action-bar, 
-        .html2pdf__container .pagination-controls { display: none !important; }
+        
+        .pdf-rendering .action-bar, 
+        .pdf-rendering .pagination-controls { display: none !important; }
 
-        .pdf-export-mode {
+        .pdf-rendering {
             background-color: #ffffff !important;
             color: #1e293b !important;
             border: none !important;
+            box-shadow: none !important;
+            
+            /* THE FIX: Resets width so the PDF engine doesn't chop the left side */
+            margin: 0 !important;
+            padding: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
         }
-        .pdf-export-mode h1, .pdf-export-mode h2 { color: #0f172a !important; }
-        .pdf-export-mode p, .pdf-export-mode ul, .pdf-export-mode ol, .pdf-export-mode .module-name { color: #334155 !important; }
-        .pdf-export-mode .course-name { color: #0d6efd !important; }
-        .pdf-export-mode .doc-header { border-bottom-color: #e2e8f0 !important; }
-        .pdf-export-mode .highlight-box { 
-            background-color: #f0f9ff !important; 
-            color: #1e293b !important; 
-        }
+        
+        .pdf-rendering h1, .pdf-rendering h2, .pdf-rendering .pdf-brand-header h2 { color: #0f172a !important; }
+        .pdf-rendering p, .pdf-rendering ul, .pdf-rendering ol, .pdf-rendering .module-name { color: #334155 !important; }
+        .pdf-rendering .course-name { color: #0d6efd !important; }
+        .pdf-rendering .doc-header { border-bottom-color: #e2e8f0 !important; }
+        .pdf-rendering .highlight-box { background-color: #f0f9ff !important; color: #1e293b !important; }
 
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            .document-container { padding: 30px 20px; }
-            .action-bar { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .action-bar button { width: 100%; }
-            .doc-header h1 { font-size: 1.75rem; }
-            h2 { font-size: 1.3rem; }
-            p, ul, ol { font-size: 1rem; }
-            .pagination-controls { flex-wrap: wrap; justify-content: center; gap: 20px; }
-            .pagination-controls button { flex: 1; min-width: 110px; }
-            .page-indicator { width: 100%; text-align: center; order: -1; margin-bottom: 5px; }
+        .pdf-rendering .lesson-page {
+            display: block !important;
+            opacity: 1 !important;
+            page-break-after: always;
+            margin-bottom: 30px;
+        }
+        .pdf-rendering .lesson-page:last-of-type { page-break-after: auto; }
+
+        .pdf-rendering h2, .pdf-rendering p, .pdf-rendering li, 
+        .pdf-rendering .highlight-box, .pdf-rendering .lesson-image-container {
+            page-break-inside: avoid;
+        } 
+
+        /* Force PDF to draw images at correct size */
+        .pdf-rendering img {
+            display: block !important;
+            width: 100% !important;
+            max-width: 600px !important; /* Keeps it perfectly sized on the page */
+            height: auto !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
     </style>
 </head>
@@ -305,7 +321,7 @@
             document.getElementById('btnNext').disabled = (currentPage === totalPages);
         }
 
-        function downloadPDF() {
+       function downloadPDF() {
             const element = document.getElementById('printableArea');
             const button = document.getElementById('pdfBtn');
             const controls = document.getElementById('paginationControls');
@@ -314,29 +330,35 @@
             button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
             button.disabled = true;
 
-            // Step 1: Force light mode and unhide all pages for the PDF
-            element.classList.add('pdf-export-mode');
+            // Trigger the CSS light-mode rules you already added
+            element.classList.add('pdf-rendering');
+            
+            // Expand all pages for the export
             const allPages = document.querySelectorAll('.lesson-page');
             allPages.forEach(p => p.classList.add('active-page'));
-            controls.style.display = 'none';
+            if(controls) controls.style.display = 'none';
 
-            const title = document.getElementById('lessonTitle').innerText;
+            const title = document.getElementById('lessonTitle') ? document.getElementById('lessonTitle').innerText : 'Lesson';
             const fileName = title.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.pdf';
 
+            // THE FIX: Added the 'pagebreak' rule to stop text chopping, and forced white background
+            // THE FIX: Exact symmetrical margins, and removed windowWidth offset
             const opt = {
-                margin:       [0.5, 0.5, 0.5, 0.5],
+                // [Top, Right, Bottom, Left] margins in inches
+                margin:       [0.5, 0.8, 0.5, 0.8], 
                 filename:     fileName,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, windowWidth: 1024 },
+                image:        { type: 'jpeg', quality: 1 },
+                pagebreak:    { mode: ['css', 'legacy'], avoid: ['h2', 'p', 'li', '.highlight-box', 'img'] },
+                html2canvas:  { scale: 2, useCORS: true, scrollX: 0, scrollY: 0, backgroundColor: '#ffffff' },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                // Step 2: Restore dark mode and pagination after download
-                element.classList.remove('pdf-export-mode');
+                // Restore to dark mode and standard pagination
+                element.classList.remove('pdf-rendering');
                 allPages.forEach(p => p.classList.remove('active-page')); 
                 document.getElementById('page-' + currentPage).classList.add('active-page'); 
-                controls.style.display = 'flex'; 
+                if(controls) controls.style.display = 'flex'; 
                 
                 button.innerHTML = originalText;
                 button.disabled = false;
