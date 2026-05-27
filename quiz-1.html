@@ -200,7 +200,7 @@
             currentData.options.forEach((option, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerHTML = option;
+                btn.innerText = option;
                 if (userAnswers[currentQuestionIndex] === index) { btn.classList.add('selected'); }
                 btn.onclick = () => selectOption(index, btn);
                 optionsContainer.appendChild(btn);
