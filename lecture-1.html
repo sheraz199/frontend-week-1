@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1: Web Architecture | Nexus Academy</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        /* LMS DARK THEME */
+        :root {
+            --primary-bg: #0f172a; 
+            --card-bg: #1e293b; 
+            --accent-color: #0d6efd; 
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--primary-bg); 
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+            color: var(--text-main);
+        }
+
+        .action-bar { 
+            max-width: 800px; 
+            margin: 0 auto 20px auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .document-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 50px 60px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .doc-header { border-bottom: 2px solid var(--border-color); padding-bottom: 20px; margin-bottom: 30px; }
+        
+        .course-name {
+            display: inline-block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #60a5fa; /* Lighter blue for dark bg */
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .doc-header h1 { font-weight: 800; color: var(--text-main); margin-bottom: 8px; font-size: 2.2rem; line-height: 1.2; }
+        .module-name { color: var(--text-muted); margin: 0; font-weight: 500; font-size: 1.1rem; }
+        h2 { font-weight: 700; color: var(--text-main); margin-top: 35px; margin-bottom: 15px; font-size: 1.5rem; }
+        p, ul, ol { line-height: 1.8; font-size: 1.05rem; margin-bottom: 20px; color: #cbd5e1; }
+        
+        .highlight-box { 
+            background-color: rgba(13, 110, 253, 0.15); 
+            border-left: 4px solid var(--accent-color); 
+            padding: 20px; 
+            border-radius: 0 8px 8px 0; 
+            margin: 30px 0; 
+            color: var(--text-main);
+        }
+
+        /* --- LESSON IMAGES --- */
+        .lesson-image-container {
+            margin: 40px 0;
+            text-align: center; /* Centers the caption */
+        }
+        
+        .lesson-image-container img {
+            max-width: 100%;    /* Makes it responsive! It will never break outside the box */
+            height: auto;       /* Keeps the proportions correct */
+            display: block;
+            margin: 0 auto;     /* Centers the image perfectly */
+            border-radius: 8px; /* Matches your theme's soft corners */
+            border: 1px solid #e2e8f0; /* Subtle border for white images */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+
+        .lesson-image-container figcaption {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #64748b; /* Soft gray for the caption */
+            font-style: italic;
+        }
+
+        /* Dark Mode Override (If you are using the dark theme template) */
+        .pdf-export-mode .lesson-image-container img {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- PAGINATION --- */
+        .lesson-page { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .lesson-page.active-page { display: block; }
+        
+        .pagination-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .page-indicator { font-weight: 600; color: var(--text-muted); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========================================== */
+        /* SMART PRINT MODE (For PDF Engine)          */
+        /* ========================================== */
+        .html2pdf__container .action-bar, 
+        .html2pdf__container .pagination-controls { display: none !important; }
+
+        .pdf-export-mode {
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+            border: none !important;
+        }
+        .pdf-export-mode h1, .pdf-export-mode h2 { color: #0f172a !important; }
+        .pdf-export-mode p, .pdf-export-mode ul, .pdf-export-mode ol, .pdf-export-mode .module-name { color: #334155 !important; }
+        .pdf-export-mode .course-name { color: #0d6efd !important; }
+        .pdf-export-mode .doc-header { border-bottom-color: #e2e8f0 !important; }
+        .pdf-export-mode .highlight-box { 
+            background-color: #f0f9ff !important; 
+            color: #1e293b !important; 
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .document-container { padding: 30px 20px; }
+            .action-bar { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .action-bar button { width: 100%; }
+            .doc-header h1 { font-size: 1.75rem; }
+            h2 { font-size: 1.3rem; }
+            p, ul, ol { font-size: 1rem; }
+            .pagination-controls { flex-wrap: wrap; justify-content: center; gap: 20px; }
+            .pagination-controls button { flex: 1; min-width: 110px; }
+            .page-indicator { width: 100%; text-align: center; order: -1; margin-bottom: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="action-bar" id="actionBar">
+        <span class="badge text-bg-primary px-3 py-2 rounded-pill shadow-sm">Nexus Academy Official Material</span>
+        <button class="btn btn-outline-light fw-bold shadow-sm" id="pdfBtn" onclick="downloadPDF()">
+            <i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i>Download Full PDF
+        </button>
+    </div>
+
+    <div class="document-container" id="printableArea">
+        
+        <div class="doc-header">
+            <span class="course-name">Frontend Development</span>
+            <h1 id="lessonTitle">Week 1: The Web Architecture</h1>
+            <p class="module-name">Lesson 1 • The Anatomy of the Web (Frontend vs. Backend, Client-Server model).</p>
+        </div>
+
+        <div class="lesson-page active-page" id="page-1">
+            <p><b>Goal:</b> Understand how the internet works and the roles of the people who build it.
+</p>
+            <h2>1. What is Web Development?</h2>
+            <p>Web development is the process of building, creating, and maintaining websites.
+                 Think of a website like a house:
+                <ul>
+                    <li><b>The Foundation & Structure (HTML):</b> The bricks, walls, and beams. 
+                        This is theskeleton of the website</li>
+                    <li><b>The Decoration & Paint (CSS):</b> The colors, furniture, and style. This makes the 
+                        house look beautiful and comfortable.</li>
+                    <li><b>The Plumbing & Electricity (JavaScript):</b> The systems that make the house functional—turning on lights, flushing toilets, or opening doors. This is how the
+                        website "behaves" and responds to you.</li>
+                </ul>
+                </p>
+
+            <div class="highlight-box">
+                <strong>Key Concept:</strong> The web is essentially a conversation between two machines: a <b>Client</b> (your browser) and a <b>Server</b> (the computer holding the website files).
+            </div>
+            <p><i>(End of Page 1. Click Next to continue reading).</i></p>
+        </div>
+
+        <div class="lesson-page" id="page-2">
+            <h2>2. The Two Parts: Frontend vs. Backend</h2>
+            <p>Building a website requires two different teams working together:
+            </p>
+            <h6>A. The Frontend (The "Dining Room")</h6>
+            <p>This is the part of the website you see and click on. When you visit a website, the colors, fonts, buttons, and menus you see are all "Frontend."</p>
+            <ul>
+            <li><strong>Real-life Example: </strong>Think of a restaurant's interior design and the menu you see on the table.</li>
+            </ul>
+            <h6>B. The Backend (The "Kitchen")</h6>
+            <p>This is the "hidden" part that works behind the scenes. . It handles things like saving your password, processing paymentsts, or finding products in a giant database.</p>
+            <ul>
+            <li><strong>Real-life Example: </strong>Think of a restaurant's kitchen and the processes that happen behind the scenes to prepare your meal.</li>
+            </ul>
+
+             
+            <figure class="lesson-image-container">
+                <img src="web-work.png" alt="Diagram">
+                <figcaption>Figure 1.1: A diagram showing the Client-Server model.</figcaption>
+            </figure>
+            
+        </div>
+
+       
+
+        <div class="lesson-page" id="page-3">
+            <h2>3. How the Web Works (The "Waiter" Analogy)</h2>
+            <p>How does your computer show you a website? It uses the <b>Client-Server Model</b>.</p>
+            <ol>
+                <li><strong>The Client (You):</strong>Your web browser (like Chrome or Firefox) is the "Client." You are the hungry customer sitting at the table</li>
+                <li><strong>The Request:</strong> : When you type google.com and press Enter, you are placing an order for a "menu."</li>
+                <li><strong>The Waiter (HTTP):</strong> The Internet works like a waiter. Your request travels over the internet to a server.</li>
+                <li><strong>The Server:</strong> This is a powerful computer located somewhere else in the world. It
+                acts as the "Kitchen." It receives your request, finds the data you asked for, and prepares the "meal."</li>
+                <li><strong>The Response:</strong> The server sends the data back to your browser, and your browser "plates" it by displaying the website on your screen.</li>
+            </ol>
+        </div>
+
+        <div class="lesson-page" id="page-4">
+            <h2>4. Why use a "Framework"?</h2>
+            <p>In the beginning, we build websites manually (like building a house brick-by-brick). But
+            as websites get huge (like Amazon or Facebook), building everything manually is too
+            slow and messy.</p>
+            <ul>
+                <li><strong>The Framework (React):</strong>Think of this as a Modular Prefabricated House Kit.
+                    Instead of making every single brick, you use pre-made, high-quality "blocks"
+                    (components) that snap together perfectly. It makes building complex things
+                    faster, safer, and much more professional.
+                </li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><b>Key Takeaway:</b> You are learning to be both an Architect (who designs the
+                    structure) and a Chef (who creates the functionality) for the digital world. By
+                    the end of this course, you won't just be building pages; you will be building
+                    reliable digital systems.
+                </p>
+            </div>
+            
+        </div>
+
+        <div class="pagination-controls" id="paginationControls">
+            <button class="btn btn-outline-primary text-white fw-bold px-4 rounded-pill border-primary" id="btnBack" onclick="changePage(-1)">
+                <i class="bi bi-arrow-left me-2"></i>Back
+            </button>
+            
+            <span class="page-indicator">Page <span id="currentPageNum">1</span> of <span id="totalPagesNum">3</span></span>
+            
+            <button class="btn btn-primary fw-bold px-4 rounded-pill" id="btnNext" onclick="changePage(1)">
+                Next<i class="bi bi-arrow-right ms-2"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = document.querySelectorAll('.lesson-page').length; 
+        
+        document.getElementById('totalPagesNum').innerText = totalPages;
+        updateButtons();
+
+        function changePage(direction) {
+            document.getElementById('page-' + currentPage).classList.remove('active-page');
+            currentPage += direction;
+            document.getElementById('page-' + currentPage).classList.add('active-page');
+            document.getElementById('currentPageNum').innerText = currentPage;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateButtons();
+        }
+
+        function updateButtons() {
+            document.getElementById('btnBack').disabled = (currentPage === 1);
+            document.getElementById('btnNext').disabled = (currentPage === totalPages);
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('printableArea');
+            const button = document.getElementById('pdfBtn');
+            const controls = document.getElementById('paginationControls');
+            const originalText = button.innerHTML;
+
+            button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+            button.disabled = true;
+
+            // Step 1: Force light mode and unhide all pages for the PDF
+            element.classList.add('pdf-export-mode');
+            const allPages = document.querySelectorAll('.lesson-page');
+            allPages.forEach(p => p.classList.add('active-page'));
+            controls.style.display = 'none';
+
+            const title = document.getElementById('lessonTitle').innerText;
+            const fileName = title.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.pdf';
+
+            const opt = {
+                margin:       [0.5, 0.5, 0.5, 0.5],
+                filename:     fileName,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, windowWidth: 1024 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Step 2: Restore dark mode and pagination after download
+                element.classList.remove('pdf-export-mode');
+                allPages.forEach(p => p.classList.remove('active-page')); 
+                document.getElementById('page-' + currentPage).classList.add('active-page'); 
+                controls.style.display = 'flex'; 
+                
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
