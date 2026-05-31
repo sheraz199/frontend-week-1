@@ -154,27 +154,133 @@
     </div>
 
     <script>
+        
         const quizData = [
-            { q: "What does HTML stand for?", options: ["Hyper Text Markup Language", "High Tech Machine Learning", "Hyper Transfer Main Logic", "Home Tool Markup Language"], answer: 0 },
-            { q: "Which protocol is primarily used to transfer web pages over the internet?", options: ["FTP", "SMTP", "HTTP", "TCP"], answer: 2 },
-            { q: "What is the main function of a DNS?", options: ["To format CSS files", "To translate domain names to IP addresses", "To encrypt passwords", "To render HTML in the browser"], answer: 1 },
-            { q: "Which language is used exclusively for styling web pages?", options: ["JavaScript", "Python", "HTML", "CSS"], answer: 3 },
-            { q: "What does the 'S' in HTTPS stand for?", options: ["System", "Server", "Secure", "Socket"], answer: 2 },
-            { q: "Which of the following is considered a Backend technology?", options: ["React", "Bootstrap", "Node.js", "CSS"], answer: 2 },
-            { q: "What does URL stand for?", options: ["Universal Resource Link", "Uniform Resource Locator", "Unified Routing Language", "Universal Routing Logic"], answer: 1 },
-            { q: "Which HTML tag is used to define the largest heading?", options: ["<head>", "<h6>", "<header>", "<h1>"], answer: 3 },
-            { q: "What is the primary purpose of JavaScript on a webpage?", options: ["To add interactivity and logic", "To style the fonts", "To store data permanently", "To secure the server"], answer: 0 },
-            { q: "Which CSS property is used to change the text color of an element?", options: ["font-color", "text-style", "color", "bgcolor"], answer: 2 },
-            { q: "What does an IP address do?", options: ["Encrypts emails", "Identifies a device on a network", "Translates CSS", "Speeds up internet connection"], answer: 1 },
-            { q: "What is a Web Server?", options: ["A program that edits HTML", "A computer that stores and delivers website files", "A physical cable connecting routers", "A browser extension"], answer: 1 },
-            { q: "Which of the following is a Web Browser?", options: ["Google Chrome", "Apache", "MySQL", "Visual Studio Code"], answer: 0 },
-            { q: "What does CSS stand for?", options: ["Computer Style Syntax", "Creative Style System", "Cascading Style Sheets", "Cascading Simple Sheets"], answer: 2 },
-            { q: "What is the correct HTML element for inserting a line break?", options: ["<break>", "<lb>", "<br>", "<tr>"], answer: 2 },
-            { q: "In CSS, how do you select an element with the id 'navbar'?", options: [".navbar", "navbar", "*navbar", "#navbar"], answer: 3 },
-            { q: "Which HTTP method is most commonly used to submit form data securely?", options: ["GET", "PULL", "POST", "UPDATE"], answer: 2 },
-            { q: "What does DOM stand for in web development?", options: ["Data Object Mode", "Document Object Model", "Dynamic Output Module", "Digital Ordinance Method"], answer: 1 },
-            { q: "Which syntax is used to insert a comment in HTML?", options: ["// This is a comment", "/* This is a comment */", "", "' This is a comment"], answer: 2 },
-            { q: "What is 'Responsive Web Design'?", options: ["Designing sites to load in under 1 second", "Designing sites to adapt to all screen sizes and devices", "Writing code that responds to voice commands", "Using only vector graphics"], answer: 1 }
+            // --- LECTURE 1: ANATOMY OF THE WEB ---
+            { 
+                type: 'single', 
+                q: "In the 'Restaurant Analogy' of web development, what does the 'Kitchen' represent?", 
+                options: ["The Frontend", "The User's Browser", "The Backend / Server", "The Graphic Design"], 
+                answer: 2 
+            },
+            { 
+                type: 'single', 
+                q: "What is the primary role of an API (Application Programming Interface) in a web application?", 
+                options: ["It applies CSS styles to the website.", "It acts as a 'waiter', securely carrying requests from the frontend client to the backend database and returning the data.", "It encrypts user passwords.", "It creates the HTML structure."], 
+                answer: 1 
+            },
+            { 
+                type: 'multiple', 
+                q: "Which of the following languages make up the 'Frontend Trio' used by browsers to render websites? (Select all that apply)", 
+                options: ["Python", "HTML", "CSS", "JavaScript"], 
+                answer: [1, 2, 3] 
+            },
+            { 
+                type: 'single', 
+                q: "When developers talk about hosting their website in 'The Cloud', what does that actually mean?", 
+                options: ["The website is stored in a satellite orbiting Earth.", "The website is running entirely on the user's mobile phone.", "The website is hosted on physical servers rented from large datacenters owned by companies like Amazon, Google, or Microsoft.", "The website requires no hardware to run."], 
+                answer: 2 
+            },
+
+            // --- LECTURE 2: THE REQUEST/RESPONSE CYCLE ---
+            { 
+                type: 'single', 
+                q: "What is the role of the Domain Name System (DNS)?", 
+                options: ["To encrypt HTTP requests.", "To act as the internet's phonebook, translating human-readable URLs (like github.com) into computer-readable IP addresses.", "To paint pixels on the user's screen.", "To store website databases."], 
+                answer: 1 
+            },
+            { 
+                type: 'single', 
+                q: "Which HTTP method is strictly used to fetch/read data from a server without modifying it?", 
+                options: ["POST", "GET", "PUT", "DELETE"], 
+                answer: 1 
+            },
+            { 
+                type: 'single', 
+                q: "What does an HTTP Status Code of '404' indicate?", 
+                options: ["Success (Data saved)", "Server Error (The backend crashed)", "Client Error (The requested URL was not found)", "Unauthorized (User is not logged in)"], 
+                answer: 2 
+            },
+            { 
+                type: 'single', 
+                q: "Why is HTTPS mandatory for modern web development instead of standard HTTP?", 
+                options: ["HTTPS makes websites load faster.", "HTTPS allows for larger image sizes.", "HTTPS uses SSL/TLS encryption to scramble data, protecting sensitive information like passwords from hackers.", "HTTPS is required to use JavaScript."], 
+                answer: 2 
+            },
+            { 
+                type: 'single', 
+                q: "What is the DOM (Document Object Model)?", 
+                options: ["A database management system.", "The server-side language of the web.", "An upside-down 'tree' structure the browser builds by reading HTML line-by-line.", "A CSS framework."], 
+                answer: 2 
+            },
+            { 
+                type: 'single', 
+                q: "Which of the following statements about the 'Render Tree' is TRUE?", 
+                options: ["It is built before the HTML is downloaded.", "It only includes elements that will actually be visible on the screen (excluding elements with `display: none`).", "It contains only CSS, no HTML.", "It is stored on the backend server."], 
+                answer: 1 
+            },
+            { 
+                type: 'single', 
+                q: "If a developer triggers a JavaScript animation that changes an element's `width`, the browser must recalculate the geometry of the entire page. What is this expensive browser phase called?", 
+                options: ["DNS Resolution", "Layout", "Painting", "Data Fetching"], 
+                answer: 1 
+            },
+
+            // --- LECTURE 3: HTML5 SEMANTICS ---
+            { 
+                type: 'single', 
+                q: "Is HTML considered a programming language?", 
+                options: ["Yes, because it can perform mathematical calculations.", "Yes, because it is used to build websites.", "No, it is a markup language used strictly to structure and describe content.", "No, it is a database query language."], 
+                answer: 2 
+            },
+            { 
+                type: 'single', 
+                q: "Which specific tag must be at the very top of an HTML document to tell the browser it is using HTML5?", 
+                options: ["<html>", "<head>", "<!DOCTYPE html>", "<meta charset='UTF-8'>"], 
+                answer: 2 
+            },
+            { 
+                type: 'multiple', 
+                q: "Which of the following are modern HTML5 'Semantic' tags? (Select all that apply)", 
+                options: ["<div>", "<header>", "<article>", "<span>"], 
+                answer: [1, 2] 
+            },
+            { 
+                type: 'single', 
+                q: "Why is it an industry standard to always include the `alt` attribute inside an `<img>` tag?", 
+                options: ["It tells the browser what size the image should be.", "It applies a border to the image.", "It provides a text description if the image fails to load, which is crucial for SEO and visually impaired users.", "It makes the image load faster."], 
+                answer: 2 
+            },
+            { 
+                type: 'single', 
+                q: "Which tag combination correctly creates a numbered (ordered) list?", 
+                options: ["<ul> and <li>", "<ol> and <li>", "<list> and <item>", "<dl> and <dt>"], 
+                answer: 1 
+            },
+            { 
+                type: 'single', 
+                q: "In an HTML table, which tag is used to define a single Table Row?", 
+                options: ["<td>", "<th>", "<tr>", "<table>"], 
+                answer: 2 
+            },
+            { 
+                type: 'single', 
+                q: "When building an HTML `<form>`, what does the `action` attribute specify?", 
+                options: ["The color of the submit button.", "The URL/endpoint where the form data should be sent when submitted.", "The HTTP method (GET or POST).", "The validation rules for the inputs."], 
+                answer: 1 
+            },
+            { 
+                type: 'single', 
+                q: "What is the primary difference between a `<div>` and a `<span>`?", 
+                options: ["A `<div>` is inline-level, a `<span>` is block-level.", "A `<div>` is block-level (takes full width, forces line breaks), while a `<span>` is inline-level (sits inside text without line breaks).", "A `<div>` is for text, a `<span>` is for images.", "There is no difference."], 
+                answer: 1 
+            },
+            { 
+                type: 'multiple', 
+                q: "Which of the following are considered strict HTML best practices? (Select all that apply)", 
+                options: ["Writing tags in uppercase (e.g., `<DIV>`).", "Indenting child elements inside their parent elements for readability.", "Closing tags in the reverse order they were opened (proper nesting).", "Using `<table>` tags to create the main layout of your webpage."], 
+                answer: [1, 2] 
+            }
         ];
 
         let currentQuestionIndex = 0;
@@ -196,11 +302,11 @@
             const progressPercentage = ((currentQuestionIndex + 1) / quizData.length) * 100;
             progressBar.style.width = `${progressPercentage}%`;
 
-            optionsContainer.innerHTML = '';
+            optionsContainer.innerText = '';
             currentData.options.forEach((option, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerHTML = option;
+                btn.innerText = option;
                 if (userAnswers[currentQuestionIndex] === index) { btn.classList.add('selected'); }
                 btn.onclick = () => selectOption(index, btn);
                 optionsContainer.appendChild(btn);
@@ -231,7 +337,7 @@
         }
 
         function renderNavigator() {
-            navGrid.innerHTML = '';
+            navGrid.innerText = '';
             for (let i = 0; i < quizData.length; i++) {
                 const box = document.createElement('div');
                 box.className = 'nav-box';

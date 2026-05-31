@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Week 1: Web Architecture | Nexus Academy</title>
+    <title>Lecture 3: HTML5 Semantics | Nexus Academy</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -55,7 +55,7 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: #60a5fa; /* Lighter blue for dark bg */
+            color: #60a5fa; 
             font-weight: 700;
             margin-bottom: 12px;
         }
@@ -63,7 +63,7 @@
         .doc-header h1 { font-weight: 800; color: var(--text-main); margin-bottom: 8px; font-size: 2.2rem; line-height: 1.2; }
         .module-name { color: var(--text-muted); margin: 0; font-weight: 500; font-size: 1.1rem; }
         h2 { font-weight: 700; color: var(--text-main); margin-top: 35px; margin-bottom: 15px; font-size: 1.5rem; }
-        p, ul, ol { line-height: 1.8; font-size: 1.05rem; margin-bottom: 20px; color: #cbd5e1; }
+        p, ul, ol { line-height: 1.7; font-size: 1.05rem; margin-bottom: 20px; color: #cbd5e1; }
         
         .highlight-box { 
             background-color: rgba(13, 110, 253, 0.15); 
@@ -74,32 +74,34 @@
             color: var(--text-main);
         }
 
-        /* --- LESSON IMAGES --- */
-        .lesson-image-container {
-            margin: 40px 0;
-            text-align: center; /* Centers the caption */
+        /* --- CODE WINDOWS --- */
+        .code-window {
+            background: #0f172a;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
-        
-        .lesson-image-container img {
-            max-width: 100%;    /* Makes it responsive! It will never break outside the box */
-            height: auto;       /* Keeps the proportions correct */
-            display: block;
-            margin: 0 auto;     /* Centers the image perfectly */
-            border-radius: 8px; /* Matches your theme's soft corners */
-            border: 1px solid #e2e8f0; /* Subtle border for white images */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Soft shadow */
-        }
-
-        .lesson-image-container figcaption {
-            margin-top: 12px;
+        .code-header {
+            background: #1e293b;
+            padding: 10px 15px;
+            border-bottom: 1px solid #334155;
+            font-family: monospace;
+            color: #94a3b8;
             font-size: 0.9rem;
-            color: #64748b; /* Soft gray for the caption */
-            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        /* Dark Mode Override (If you are using the dark theme template) */
-        .pdf-export-mode .lesson-image-container img {
-            border-color: rgba(255, 255, 255, 0.1);
+        .code-body {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+            color: #e2e8f0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         /* --- PAGINATION --- */
@@ -110,7 +112,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 40px;
+            margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid var(--border-color);
         }
@@ -122,8 +124,8 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-       /* ========================================== */
-        /* SMART PRINT MODE (Light Theme + Page Breaks) */
+        /* ========================================== */
+        /* SMART PRINT & PDF MODE */
         /* ========================================== */
         
         .pdf-rendering .action-bar, 
@@ -134,8 +136,6 @@
             color: #1e293b !important;
             border: none !important;
             box-shadow: none !important;
-            
-            /* THE FIX: Resets width so the PDF engine doesn't chop the left side */
             margin: 0 !important;
             padding: 0 !important;
             max-width: 100% !important;
@@ -147,28 +147,31 @@
         .pdf-rendering .course-name { color: #0d6efd !important; }
         .pdf-rendering .doc-header { border-bottom-color: #e2e8f0 !important; }
         .pdf-rendering .highlight-box { background-color: #f0f9ff !important; color: #1e293b !important; }
+        
+        /* Dark Code Blocks in PDF */
+        .pdf-rendering .code-window { background-color: #0f172a !important; border-color: #334155 !important; box-shadow: none; page-break-inside: avoid; }
+        .pdf-rendering .code-header { background-color: #1e293b !important; color: #94a3b8 !important; border-bottom-color: #334155 !important; }
+        .pdf-rendering .code-body { color: #f8fafc !important; }
 
-        .pdf-rendering .lesson-page {
-            display: block !important;
-            opacity: 1 !important;
-            page-break-after: always;
-            margin-bottom: 30px;
-        }
+        .pdf-rendering .lesson-page { opacity: 1 !important; margin-bottom: 30px; }
         .pdf-rendering .lesson-page:last-of-type { page-break-after: auto; }
 
-        .pdf-rendering h2, .pdf-rendering p, .pdf-rendering li, 
-        .pdf-rendering .highlight-box, .pdf-rendering .lesson-image-container {
-            page-break-inside: avoid;
-        } 
+        .pdf-rendering h2, .pdf-rendering p, .pdf-rendering li, .pdf-rendering .highlight-box { page-break-inside: avoid; } 
 
-        /* Force PDF to draw images at correct size */
-        .pdf-rendering img {
-            display: block !important;
-            width: 100% !important;
-            max-width: 600px !important; /* Keeps it perfectly sized on the page */
-            height: auto !important;
-            visibility: visible !important;
-            opacity: 1 !important;
+        /* ========================================== */
+        /* HIGHLY RESPONSIVE MOBILE ADJUSTMENTS */
+        /* ========================================== */
+        @media (max-width: 768px){
+            body { padding: 10px; }
+            .document-container { padding: 30px 15px; border-radius: 8px; }
+            h2 { margin-top: 25px; margin-bottom: 12px; font-size: 1.35rem; }
+            p, ul, ol { font-size: 1rem; line-height: 1.6; margin-bottom: 15px; }
+            .hero-box { padding: 2rem 1.2rem !important; }
+            .hero-box h1 { font-size: 1.8rem !important; }
+            .hero-box h3 { font-size: 1.15rem !important; }
+            .hero-box p.lead { font-size: 0.95rem !important; margin-bottom: 1.2rem !important; }
+            .highlight-box { padding: 15px; margin: 20px 0; font-size: 0.95rem; }
+            #trio-image { height: 270px; width: 400px; }
         }
     </style>
 </head>
@@ -177,190 +180,340 @@
     <div class="action-bar" id="actionBar">
         <span class="badge text-bg-primary px-3 py-2 rounded-pill shadow-sm">Nexus Academy Official Material</span>
         <button class="btn btn-outline-light fw-bold shadow-sm" id="pdfBtn" onclick="downloadPDF()">
-            <i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i>Download Full PDF
+            <i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i>Download PDF
         </button>
     </div>
 
     <div class="document-container" id="printableArea">
         
         <div class="doc-header">
-            <span class="course-name">Frontend Development</span>
-            <h1 id="lessonTitle">Week 1: The Web Architecture</h1>
-            <p class="module-name">Lesson 3 • The Web Trio – HTML, CSS, and JavaScript</p>
+            <span class="course-name">Web Fundamentals</span>
+            <h1 id="lessonTitle">HTML5 Semantics</h1>
+            <p class="module-name">Lecture 3: Document structure, tags, tables, and forms.</p>
         </div>
 
         <div class="lesson-page active-page" id="page-1">
-            <p><b>Goal:</b> Understand the roles of HTML, CSS, and JavaScript in web development.</p>
-            <h2>1. HTML: The Skeleton (Structure)</h2>
-            <p>HTML stands for HyperText Markup Language. It is not a programming language; it is
-               a marking language. It tells the browser what each part of your page is.
-                <ul>
-                    <li><strong>Real-life Example:</strong> Think of HTML like the blueprint of a house. It defines
-                        where the walls go, where the doors are placed, and how many rooms there are.
-                        It doesn’t tell you the color of the paint or the type of furniture; it just defines the
-                        structure.
-                    </li>
-                    <li><strong>Key Concept: HTML uses tags.</strong> 
-                        <ul>
-                            <li> <code>&lt;h1&gt;</code> for a main title.</li>
-                            <li> <code>&lt;h2&gt;</code> for a secondary title.</li>
-                            <li> <code>&lt;p&gt;</code> for a paragraph.</li>
-                            <li> <code>&lt;img&gt;</code> for an image.</li>
-                        </ul>
-                    </li>
-                </ul>
-                These tags are like labels that tell the browser how to display the content. For example, an <code>&lt;h1&gt;</code> tag will make the text big and bold, while a <code>&lt;p&gt;</code> tag will make it look like a regular paragraph.
-                </p>
+            <div class="container-fluid py-4 d-flex flex-column justify-content-center align-items-center text-light">
+            
+            <div class="hero-box text-center p-4 p-md-5 rounded shadow-lg border" style="max-width: 650px; background-color: var(--primary-bg); border-color: var(--border-color) !important;">
+                
+            <span class="badge bg-primary mb-3 px-3 py-2 text-uppercase letter-spacing-1">Week 1</span>
+            
+            <h1 class="display-6 fw-bold text-white mb-3">Welcome to Lecture 3</h1>
+            <h3 class="fw-light text-info mb-3 fs-5">Unboxing HTML</h3>
+            
+            <p class="lead mb-4 text-light opacity-75 fs-6">
+                Now that you understand how the internet delivers data, it is time to build what the user actually sees. Today, we begin with the absolute foundation of the web: HyperText Markup Language.
+            </p>
+    
+            <button onclick="changePage(1)" class="btn btn-primary btn-lg w-100 px-4 py-2 fw-bold rounded-pill shadow-sm transition-all">
+            Start Coding <i class="bi bi-code-slash ms-2"></i>
+            </button>
 
-            <figure class="lesson-image-container">
-                <img src="html-syntax.png" alt="Diagram">
-                <figcaption>Figure 1.3: HTML syntax representation.</figcaption>
-            </figure>
-
-            <p><i>(End of Page 1. Click Next to continue reading).</i></p>
+                </div>
+            </div>
         </div>
 
         <div class="lesson-page" id="page-2">
-            <h2>2. CSS: The Style (Presentation)</h2>
-            <p>CSS stands for Cascading Style Sheets. This is what makes your website look
-                professional, modern, and branded.
+            <h2>1. The Frontend Trio</h2>
+            <p>
+            Every modern website, no matter how complex, is built using a combination of three core languages. Think of them like the human body:
             </p>
-            <ul>
-                <li><strong>Real-life Example:</strong>: If HTML is the house blueprint, CSS is the interior design. It
-                    decides:
-                    <ul>
-                        <li>What color are the walls? (Background colors)</li>
-                        <li>How big are the windows? (Width and height)</li>
-                        <li>Where do the pictures hang? (Layout and positioning)</li>
-                    </ul>
-                </li>
-                <li><strong>Key Concept: </strong>:  CSS uses rules to target HTML elements.
-                <ul>
-                        <li>"Change all <code>&lt;h1&gt;</code> titles to blue."</li>
-                        <li>"Make all paragraphs 16 pixels large."</li>
-                        <li>"Move the logo to the top right corner."</li>
-                    </ul>
-                </li>
-                <li><strong>Why it matters:</strong> CSS is what turns a boring document into a beautiful,
-                    user-friendly interface. It allows for Responsiveness—ensuring the site looks
-                    good on both a giant monitor and a small mobile phone.
-                </li>
-            </ul>
 
-            <figure class="lesson-image-container">
-                <img src="css-syntax.webp" alt="Diagram">
-                <figcaption>Figure 1.4: A diagram showing CSS syntax.</figcaption>
-            </figure>
-            
+            <div class="row align-items-center mt-4 mb-4">
+                <div class="col-md-7">
+                    <ul class="list-unstyled" style="line-height: 2;">
+                        <li><strong class="text-primary h5"><i class="bi bi-filetype-html me-2"></i>HTML (The Skeleton):</strong> Provides the raw structure and content. Without it, you have nothing.</li>
+                        <li><strong class="text-info h5"><i class="bi bi-filetype-css me-2"></i>CSS (The Skin/Clothes):</strong> Provides the visual styling—colors, fonts, and layouts.</li>
+                        <li><strong class="text-warning h5"><i class="bi bi-filetype-js me-2"></i>JavaScript (The Muscle):</strong> Provides behavior, logic, and interactivity.</li>
+                    </ul>
+                </div>
+                <div class="col-md-5 text-center">
+                    
+                    <div style="border: 2px dashed #475569; padding: 20px; border-radius: 8px; color: #94a3b8;">
+                        <img src="trio.jpg" alt="Trio" id="trio-image" height="250px" width="220px">
+                    </div>
+                    </div>
+            </div>
         </div>
 
         <div class="lesson-page" id="page-3">
-            <h2>3. JavaScript: The Brain (Behavior)</h2>
-            <p>JavaScript (JS) is the only true programming language of the three. It makes the page
-                interactive.
+           <h2>2. What is HTML?</h2>
+           <p>
+            <strong>HTML</strong> stands for <em>HyperText Markup Language</em>. 
+           </p>
+           <p>
+            It is <strong>not</strong> a programming language. It cannot do math, and it cannot make decisions. It is a <em>markup language</em>. Its only job is to wrap raw text in "tags" to tell the web browser what that text represents.
+           </p>
 
-                    <ul>
-                        <li><strong>Real-life Example:</strong> If HTML is the house and CSS is the decoration, JavaScript
-                            is the electricity and smart-home system.
-                            <ul>
-                                <li>Click a button to turn on a light? That’s JS.</li>
-                                <li>An alarm goes off when a window opens? That’s JS.</li>
-                                <li>A form that checks if you typed your email correctly before sending? That’s JS.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Key Concept:</strong>  JavaScript allows you to listen for events. When a user clicks,
-                            hovers, or types, JavaScript tells the website to "do something" in response.
-                        </li>
-                        <li>
-                            <strong>Why it matters:</strong> Without JS, a website is just a static page—like a printed
-                            newspaper. With JS, it becomes an application (like an online shop or a social
-                            media feed).
-                        </li>
-                    </ul> 
-            </p>
-                 
-            <figure class="lesson-image-container">
-                <img src="js-syntax.webp" alt="Diagram">
-                <figcaption>Figure 1.5: A diagram showing JavaScript syntax.</figcaption>
-            </figure>
+            <div class="code-window mt-3">
+                <div class="code-header">
+                    <i class="bi bi-code-square"></i> Anatomy of an HTML Element
+                </div>
+                <pre class="code-body"><code>&lt;!-- Opening Tag --&gt;    &lt;!-- Content --&gt;    &lt;!-- Closing Tag (has a slash) --&gt;
+   &lt;h1&gt;                Welcome to Nexus         &lt;/h1&gt;
 
+&lt;!-- The browser reads this and says: "Ah, display 'Welcome to Nexus' as a large Heading." --&gt;</code></pre>
+            </div>
         </div>
 
         <div class="lesson-page" id="page-4">
-            <h2>4. How they work together (The "Pizza" Analogy)</h2>
-            <p>Now that we understand how HTML, CSS, and JavaScript work as individual web
-                languages, how do they work together in practice?<br>Imagine a website as a car that
-                needs to be built, and web developers as the
-                mechanics who’ve been tasked with building it. They’ll take the blueprints —
-                which detail how the car should look in its final form — and turn them into a
-                physical and functioning car that can get the driver from A to B. <br>
-                To carry through their vision, they have three tools in their arsenal:
-                <ul>
-                    <li>HTML: The structure of the car (the frame).</li>
-                    <li>CSS: The appearance of the car (the paint and design).</li>
-                    <li>JavaScript: The functionality of the car (the engine and features).</li>
-                </ul>
-            </p>
+           <h2>3. The Anatomy of an HTML Document</h2>
+           <p>
+            Every HTML file requires a specific "boilerplate" structure to be considered valid by web browsers. 
+           </p>
+           
+            <div class="code-window mt-3">
+                <div class="code-header">
+                    <i class="bi bi-filetype-html"></i> index.html
+                </div>
+                <pre class="code-body"><code>&lt;!DOCTYPE html&gt; &lt;!-- Tells the browser we are using HTML5 --&gt;
+&lt;html lang="en"&gt; &lt;!-- The root element that wraps everything --&gt;
+  
+  &lt;head&gt;
+    &lt;!-- Metadata: Invisible to the user, important for the browser & SEO --&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My First Website&lt;/title&gt;
+  &lt;/head&gt;
+  
+  &lt;body&gt;
+    &lt;!-- The Body: EVERYTHING the user actually sees goes in here --&gt;
+    &lt;h1&gt;Hello World&lt;/h1&gt;
+    &lt;p&gt;Welcome to my site.&lt;/p&gt;
+  &lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+            </div>
         </div>
-
+            
         <div class="lesson-page" id="page-5">
+            <h2>4. Basic Text Formatting</h2>
             <p>
-                First, they’ll use HTML to construct the car's basic structure or the ‘skeleton’.
-                They’ll create door panels, wheels, trunks, and hoods that can be welded
-                together. Not very aesthetically pleasing or functional, but HTML will get the car
-                components built. 
+            HTML provides specific tags to format text. 
             </p>
 
-            <figure class="lesson-image-container">
-                <img src="skeleton.jpg" alt="Diagram">
-            </figure>
-
+            <ul>
+                <li><strong>Headings:</strong> Ranging from <code>&lt;h1&gt;</code> (largest/most important) down to <code>&lt;h6&gt;</code> (smallest). You should only ever have <strong>one</strong> <code>&lt;h1&gt;</code> per page!</li>
+                <li><strong>Paragraphs:</strong> The <code>&lt;p&gt;</code> tag is used for blocks of standard text.</li>
+                <li><strong>Emphasis:</strong> 
+                    <ul>
+                        <li><code>&lt;strong&gt;</code> makes text <b>bold</b> (and tells screen readers it's important).</li>
+                        <li><code>&lt;em&gt;</code> makes text <i>italicized</i>.</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
 
         <div class="lesson-page" id="page-6">
+            <h2>5. HTML5 Semantics (Meaning)</h2>
             <p>
-                Next, CSS is used to embellish the car’s basic structure with style and function.
-                Colors are added, as well as materials like leather seats, a wooden dashboard,
-                and aluminium rims. Suddenly the car has gone from a bare-bones structure to
-                something you’d actually want to drive.
+            In older versions of HTML, developers wrapped everything in meaningless <code>&lt;div&gt;</code> tags. HTML5 introduced <strong>Semantic Tags</strong>—tags that actually describe their purpose.
             </p>
 
-            
-              <figure class="lesson-image-container">
-                  <img src="css-car.jpg" alt="Diagram">
-              </figure>
-       
+            <ul class="mb-4">
+                <li><code>&lt;header&gt;</code>: Top area containing logos and navigation.</li>
+                <li><code>&lt;nav&gt;</code>: A block of navigation links.</li>
+                <li><code>&lt;main&gt;</code>: The primary content of the page.</li>
+                <li><code>&lt;section&gt;</code>: A thematic grouping of content.</li>
+                <li><code>&lt;article&gt;</code>: A standalone piece of content (like a blog post).</li>
+                <li><code>&lt;footer&gt;</code>: The bottom area containing copyrights and legal links.</li>
+            </ul>
+
+            <div class="highlight-box border-success" style="background-color: rgba(16, 185, 129, 0.1); border-left-color: #10b981;">
+                <strong class="text-success"><i class="bi bi-graph-up-arrow me-2"></i>Why use Semantics?</strong> <br>
+                1. <strong>SEO (Search Engines):</strong> Google ranks pages higher if it can easily understand the structure using semantic tags.<br>
+                2. <strong>Accessibility:</strong> Screen readers for visually impaired users rely on semantic tags to navigate the page out loud.
+            </div>
         </div>
 
         <div class="lesson-page" id="page-7">
+            <h2>6. Links and Images (Attributes)</h2>
             <p>
-                Next, JavaScript is used to add interactivity and dynamic behavior to the car.
-                Features like a GPS system, a music player, or even autonomous driving capabilities
-                can be implemented. The car is now not just something you drive, but something that
-                responds to your commands and enhances your driving experience.
+            Tags often need extra instructions called <strong>Attributes</strong>. They always go inside the <em>opening</em> tag.
             </p>
 
-            
-              <figure class="lesson-image-container">
-                  <img src="js-car.webp" alt="Diagram">
-              </figure>
-    
-               <div class="highlight-box" style="border-left-color: #10b981;">
-                  <strong style="color: #4ade80;">Congratulations!</strong> You have finished this lesson. You may now close this window and proceed to the Quiz.
-               </div>
+            <div class="code-window mt-3 mb-4">
+                <div class="code-header">
+                    <i class="bi bi-link-45deg"></i> Anchor (Link) & Image Tags
+                </div>
+                <pre class="code-body"><code>&lt;!-- The Anchor tag (a) creates a link. 
+     href = Where it goes. 
+     target="_blank" = Opens in a new tab. --&gt;
+&lt;a href="https://google.com" target="_blank"&gt;Click to visit Google&lt;/a&gt;
 
+&lt;!-- The Image tag (img) is self-closing (no &lt;/img&gt;).
+     src = The path to the image file.
+     alt = Text description if the image fails to load (Crucial for SEO). --&gt;
+&lt;img src="profile.jpg" alt="A photo of the author smiling" /&gt;</code></pre>
+            </div>
         </div>
 
-           
-       
-        
+        <div class="lesson-page" id="page-8">
+            <h2>7. Structuring Lists</h2>
+            <p>
+            HTML has two primary ways to create lists. Both require the use of <code>&lt;li&gt;</code> (List Item) tags inside a parent container.
+            </p>
             
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="text-info mt-3">Unordered List (Bullet Points)</h5>
+<pre class="bg-dark p-3 rounded text-light border border-secondary" style="font-family: monospace;"><code>&lt;ul&gt;
+  &lt;li&gt;Milk&lt;/li&gt;
+  &lt;li&gt;Eggs&lt;/li&gt;
+  &lt;li&gt;Bread&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-info mt-3">Ordered List (Numbered)</h5>
+<pre class="bg-dark p-3 rounded text-light border border-secondary" style="font-family: monospace;"><code>&lt;ol&gt;
+  &lt;li&gt;Preheat oven&lt;/li&gt;
+  &lt;li&gt;Mix ingredients&lt;/li&gt;
+  &lt;li&gt;Bake for 20 mins&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-page" id="page-9">
+            <h2>8. HTML Tables</h2>
+            <p>
+            Tables are used to display <strong>tabular data</strong> (like Excel sheets). <em>Never use tables for website layout!</em>
+            </p>
+
+            <div class="code-window mt-3 mb-4">
+                <div class="code-header">
+                    <i class="bi bi-table"></i> Table Structure
+                </div>
+                <pre class="code-body"><code>&lt;table&gt;
+  &lt;thead&gt; &lt;!-- Table Header Section --&gt;
+    &lt;tr&gt;  &lt;!-- Table Row --&gt;
+      &lt;th&gt;Name&lt;/th&gt;  &lt;!-- Table Header Cell (Bold by default) --&gt;
+      &lt;th&gt;Age&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt; &lt;!-- Table Body Section --&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Ali&lt;/td&gt;   &lt;!-- Table Data Cell --&gt;
+      &lt;td&gt;25&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+            </div>
+        </div>
+
+        <div class="lesson-page" id="page-10">
+            <h2>9. Forms (The Architecture)</h2>
+            <p>
+            Forms are how users send data (like logins or checkouts) back to the server. Everything is wrapped inside a <code>&lt;form&gt;</code> tag.
+            </p>
+            
+            <div class="code-window mt-3 mb-4">
+                <div class="code-header">
+                    <i class="bi bi-input-cursor-text"></i> Basic Form
+                </div>
+                <pre class="code-body"><code>&lt;!-- action: where the data goes. method: how it is sent (POST protects data) --&gt;
+&lt;form action="/submit-login" method="POST"&gt;
+  
+  &lt;!-- The Label describes the input for screen readers and usability --&gt;
+  &lt;label for="userEmail"&gt;Email Address:&lt;/label&gt;
+  
+  &lt;!-- The Input. 'id' connects to the label. 'name' is what the server reads --&gt;
+  &lt;input type="email" id="userEmail" name="email" required /&gt;
+  
+  &lt;button type="submit"&gt;Log In&lt;/button&gt;
+
+&lt;/form&gt;</code></pre>
+            </div>
+        </div>
+
+        <div class="lesson-page" id="page-11">
+            <h2>10. Form Input Types</h2>
+            <p>
+            HTML5 introduced powerful input types that automatically trigger mobile keyboards (e.g., pulling up the `@` symbol for emails) and handle basic validation.
+            </p>
+
+            <ul class="mb-4" style="line-height: 1.8;">
+                <li><code>&lt;input type="text"&gt;</code>: Standard short text.</li>
+                <li><code>&lt;input type="password"&gt;</code>: Hides characters as `***`.</li>
+                <li><code>&lt;input type="email"&gt;</code>: Requires an `@` symbol.</li>
+                <li><code>&lt;input type="date"&gt;</code>: Opens a native calendar picker.</li>
+                <li><code>&lt;input type="checkbox"&gt;</code>: Multiple selections (e.g., "Select your skills").</li>
+                <li><code>&lt;input type="radio"&gt;</code>: Single selection (e.g., "Choose Male or Female").</li>
+                <li><code>&lt;textarea&gt;&lt;/textarea&gt;</code>: Multi-line text for paragraphs/messages.</li>
+                <li><code>&lt;select&gt;</code>: Creates a dropdown menu using <code>&lt;option&gt;</code> tags.</li>
+            </ul>
+        </div>
+
+        <div class="lesson-page" id="page-12">
+            <h2>11. Divs and Spans</h2>
+            <p>
+            Sometimes you need to group elements together strictly for CSS styling, and no semantic tag makes sense. That is when we use non-semantic containers:
+            </p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="highlight-box border-primary h-100 mt-0" style="background-color: rgba(13, 110, 253, 0.1);">
+                        <strong class="text-primary h5"><code>&lt;div&gt;</code> (Block-Level)</strong> <br><br>
+                        Acts like a box. It takes up the full width of the screen and forces a line break before and after itself. Used for grouping large sections.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="highlight-box border-warning h-100 mt-0" style="background-color: rgba(234, 179, 8, 0.1);">
+                        <strong class="text-warning h5"><code>&lt;span&gt;</code> (Inline-Level)</strong> <br><br>
+                        Sits perfectly inside a line of text without causing a line break. Used for styling a single word inside a paragraph.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lesson-page" id="page-13">
+            <h2>12. HTML Industry Best Practices</h2>
+            <p>
+            Writing code that simply "works" on your screen is not enough. Professionals write code that is clean, maintainable, and accessible.
+            </p>
+
+            <ol class="mt-4 mb-4" style="line-height: 1.8;">
+                <li><strong>Indentation:</strong> Always indent child elements inside their parent. Messy code causes bugs.</li>
+                <li><strong>Lowercase Tags:</strong> Always write tags in lowercase (<code>&lt;p&gt;</code>, not <code>&lt;P&gt;</code>).</li>
+                <li><strong>Proper Nesting:</strong> Close tags in the reverse order they were opened. <br><em>Correct:</em> <code>&lt;p&gt;&lt;strong&gt;Text&lt;/strong&gt;&lt;/p&gt;</code> <br><em>Wrong:</em> <code>&lt;p&gt;&lt;strong&gt;Text&lt;/p&gt;&lt;/strong&gt;</code></li>
+                <li><strong>Always use Alt Text:</strong> Never write an <code>&lt;img&gt;</code> tag without an <code>alt</code> attribute.</li>
+            </ol>
+        </div>
+
+        <div class="lesson-page" id="page-14">
+            <div class="container-fluid py-4 d-flex flex-column justify-content-center align-items-center text-light">
+  
+            <div class="hero-box text-center p-4 p-md-5 rounded shadow-lg border" style="max-width: 600px; background-color: var(--primary-bg); border-color: var(--border-color) !important;">
+    
+            <div class="mb-4">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-check2-circle text-success" viewBox="0 0 16 16">
+                  <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                  <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                </svg>
+            </div>
+    
+            <h1 class="display-6 fw-bold text-white mb-3">HTML Mastered!</h1>
+    
+            <p class="lead mb-4 text-light opacity-75 fs-6">
+                You now possess the vocabulary to build the structural foundation of any website on the internet. In our next lesson, we will begin painting that structure with CSS.
+            </p>
+    
+            <hr class="border-light opacity-25 mb-4">
+    
+                <a href="quiz-1.html" class="btn btn-success btn-lg w-100 px-4 py-2 fw-bold rounded-pill shadow-sm transition-all">
+                 Take Quiz <i class="bi bi-arrow-right-circle-fill ms-2"></i>
+                </a>
+
+                </div>
+            </div>
+        </div>
+
         <div class="pagination-controls" id="paginationControls">
             <button class="btn btn-outline-primary text-white fw-bold px-4 rounded-pill border-primary" id="btnBack" onclick="changePage(-1)">
                 <i class="bi bi-arrow-left me-2"></i>Back
             </button>
             
-            <span class="page-indicator">Page <span id="currentPageNum">1</span> of <span id="totalPagesNum">3</span></span>
+            <span class="page-indicator">Page <span id="currentPageNum">1</span> of <span id="totalPagesNum">14</span></span>
             
             <button class="btn btn-primary fw-bold px-4 rounded-pill" id="btnNext" onclick="changePage(1)">
                 Next<i class="bi bi-arrow-right ms-2"></i>
@@ -386,6 +539,14 @@
         }
 
         function updateButtons() {
+            const controls = document.getElementById('paginationControls');
+            
+            if (currentPage === 1 || currentPage === totalPages) {
+                controls.style.display = 'none';
+            } else {
+                controls.style.display = 'flex';
+            }
+
             document.getElementById('btnBack').disabled = (currentPage === 1);
             document.getElementById('btnNext').disabled = (currentPage === totalPages);
         }
@@ -399,41 +560,54 @@
             button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
             button.disabled = true;
 
-            // Trigger the CSS light-mode rules you already added
             element.classList.add('pdf-rendering');
             
-            // Expand all pages for the export
             const allPages = document.querySelectorAll('.lesson-page');
-            allPages.forEach(p => p.classList.add('active-page'));
+            
+            allPages.forEach((p, index) => {
+                if (index === 0 || index === allPages.length - 1) {
+                    p.style.display = 'none'; 
+                } else {
+                    p.style.display = 'block'; 
+                    
+                    if (index === allPages.length - 2) {
+                        p.style.pageBreakAfter = 'auto';
+                    } else {
+                        p.style.pageBreakAfter = 'always';
+                    }
+                }
+            });
+
             if(controls) controls.style.display = 'none';
 
             const title = document.getElementById('lessonTitle') ? document.getElementById('lessonTitle').innerText : 'Lesson';
             const fileName = title.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.pdf';
 
-            // THE FIX: Added the 'pagebreak' rule to stop text chopping, and forced white background
-            // THE FIX: Exact symmetrical margins, and removed windowWidth offset
             const opt = {
-                // [Top, Right, Bottom, Left] margins in inches
                 margin:       [0.5, 0.8, 0.5, 0.8], 
                 filename:     fileName,
                 image:        { type: 'jpeg', quality: 1 },
-                pagebreak:    { mode: ['css', 'legacy'], avoid: ['h2', 'p', 'li', '.highlight-box', 'img'] },
+                pagebreak:    { mode: ['css', 'legacy'], avoid: ['h2', 'p', 'li', '.highlight-box', 'img', '.code-window'] },
                 html2canvas:  { scale: 2, useCORS: true, scrollX: 0, scrollY: 0, backgroundColor: '#ffffff' },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                // Restore to dark mode and standard pagination
                 element.classList.remove('pdf-rendering');
-                allPages.forEach(p => p.classList.remove('active-page')); 
+                
+                allPages.forEach(p => {
+                    p.style.display = '';
+                    p.style.pageBreakAfter = '';
+                }); 
+                
                 document.getElementById('page-' + currentPage).classList.add('active-page'); 
-                if(controls) controls.style.display = 'flex'; 
+                
+                if(controls) updateButtons(); 
                 
                 button.innerHTML = originalText;
                 button.disabled = false;
             });
         }
-           
     </script>
 </body>
 </html>
